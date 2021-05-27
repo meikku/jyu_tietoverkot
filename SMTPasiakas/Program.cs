@@ -29,7 +29,8 @@ namespace SMTPasiakas
             StreamWriter sw = new StreamWriter(ns);
 
             String email = "testi posti";
-
+            String lahettaja = "meikku@jyu.fi";
+            String vastaanottaja = "joku@jyu.fi";
             Boolean on = true;
             String viesti = "";
 
@@ -46,24 +47,27 @@ namespace SMTPasiakas
                     case "250":
                         switch (status[1])
                         {
-                            
+                            case "2.0.0":
+                            sw.WriteLine("QUIT:");
+                            break;
+                            case "2.1.0":
+                            sw.WriteLine("RCPT TO: " + vastaanottaja);
+                            break;
                             case "2.1.5":
                             sw.WriteLine("DATA: ");
                             break;
-                            case "2.1.0":
-                            sw.WriteLine("RCPT TO: ");
-                            break;
-                            case "2.0.0":
-                            sw.WriteLine("MAIL FROM: ");
-                            break;
+                            
                             default: //ITKP104 Postipalvelin HELO localhost[127.0.0.1], good to see you! 
-
-                            sw.WriteLine("QUIT");
+                            sw.WriteLine("MAIL FROM: " + lahettaja);
                             break;
                         }
                         break;
                     case "221":
                         on = false;
+                        break;
+                    case "354":
+                        sw.WriteLine(email);
+                        sw.WriteLine("\r\n.\r\n");
                         break;
 
                     default: 
