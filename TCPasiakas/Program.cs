@@ -33,6 +33,7 @@ namespace TCPasiakas
 
             Console.ReadKey();
             s.Close();
+           
         }
     }
 }
