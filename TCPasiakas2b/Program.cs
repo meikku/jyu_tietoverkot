@@ -2,13 +2,13 @@
 using System.Net.Sockets;
 using System.IO;
 
-namespace TCPasiakas
+namespace TCPasiakas2b
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+           Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {
@@ -26,14 +26,15 @@ namespace TCPasiakas
             StreamReader sr = new StreamReader(ns);
             StreamWriter sw = new StreamWriter(ns);
 
-            String snd = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
+            String snd = "testiviesti";
  
             sw.WriteLine(snd);
             sw.Flush();
-            String vastaus = sr.ReadToEnd();
-            String[] sivu = vastaus.Split("\r\n\r\n", 2);
+            String vastaus = sr.ReadLine();
+            String[] split = vastaus.Split(";");
 
-            Console.Write(sivu[1]);
+            Console.WriteLine(split[0]);
+            Console.WriteLine(split[1]);
 
             Console.ReadKey();
 
@@ -41,7 +42,6 @@ namespace TCPasiakas
             sr.Close();
             ns.Close();
             s.Close();
-           
         }
     }
 }
