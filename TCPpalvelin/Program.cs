@@ -16,7 +16,7 @@ namespace TCPpalvelin
             Palvelin.Bind(iep);
 
             Palvelin.Listen(5);
-            // while(true) {
+            
             Socket Asiakas = Palvelin.Accept();
 
             IPEndPoint iap = (IPEndPoint)Asiakas.RemoteEndPoint;
@@ -34,12 +34,11 @@ namespace TCPpalvelin
             sw.WriteLine("Meikun palvelin;" + rec);
             sw.Flush();
             
-            Console.ReadKey();
+
+            sw.Close();
+            sr.Close();
+            ns.Close();
             Asiakas.Close(); 
-
-            //} //while    
-            Console.ReadKey();
-
             Palvelin.Close();
         }
     }
