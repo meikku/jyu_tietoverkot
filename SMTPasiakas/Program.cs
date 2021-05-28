@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Net;
 using System.IO;
 
 namespace SMTPasiakas
@@ -14,7 +13,6 @@ namespace SMTPasiakas
             try
             {
                 s.Connect("localhost", 25000);
-                //s.Connect("smtp.jyu.fi", 25);
             }
             catch (Exception ex)
             {
@@ -48,26 +46,25 @@ namespace SMTPasiakas
                         switch (status[1])
                         {
                             case "2.0.0":
+                            on = false;
                             sw.WriteLine("QUIT:");
                             break;
                             case "2.1.0":
                             sw.WriteLine("RCPT TO: " + vastaanottaja);
                             break;
                             case "2.1.5":
-                            sw.WriteLine("DATA: ");
+                            sw.WriteLine("DATA");
                             break;
-                            
                             default: //ITKP104 Postipalvelin HELO localhost[127.0.0.1], good to see you! 
                             sw.WriteLine("MAIL FROM: " + lahettaja);
-                            break;
+                            break; 
                         }
                         break;
                     case "221":
                         on = false;
                         break;
                     case "354":
-                        sw.WriteLine(email);
-                        sw.WriteLine("\r\n.\r\n");
+                        sw.WriteLine(email + "\r\n.\r\n");
                         break;
 
                     default: 
