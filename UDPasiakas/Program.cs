@@ -2,7 +2,6 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Collections.Generic;
 
 namespace UDPasiakas
 {
@@ -36,17 +35,26 @@ namespace UDPasiakas
                     {
                         IPEndPoint remote = new IPEndPoint(IPAddress.Any, 0);
                         EndPoint Palvelinep = (EndPoint)remote;
-                        int p = 0; 
+                        int received =0;
 
                         try 
                         {
-                            s.ReceiveFrom(rec, ref Palvelinep);
-                            // split string , onko pituus 2? 
-                            // jos on, tulosta näyttöön
+                            received = s.ReceiveFrom(rec, ref Palvelinep);
+                            String rec_string = Encoding.ASCII.GetString(rec);
+                            char[] delim = { ';' };
+                            String[] viesti = rec_string.Split(delim, 2);
+                            if (viesti.Length < 2)
+                            {   
+                                // virheviesti
+                            }
+                            else
+                            {
+                                Console.WriteLine("{0}: {1}", viesti[0], viesti[1]); 
+                            }
                         } 
                         catch 
                         {
-                            // timeout
+                           // timeout
                         } 
                     }
                 }

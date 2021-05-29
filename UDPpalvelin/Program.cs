@@ -42,7 +42,7 @@ namespace UDPpalvelin
                 String[] palat = rec_string.Split(delim, 2);
                 if (palat.Length < 2)
                 {
-                    // lähetä virheviesti
+                    Console.WriteLine("virheellinen viesti");
                 }
                 else
                 {
