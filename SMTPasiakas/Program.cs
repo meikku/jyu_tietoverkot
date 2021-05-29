@@ -31,6 +31,7 @@ namespace SMTPasiakas
             String vastaanottaja = "joku@jyu.fi";
             Boolean on = true;
             String viesti = "";
+            String lahetys = "";
 
             while (on) {
 
@@ -40,23 +41,32 @@ namespace SMTPasiakas
 
                 switch (status[0]) {
                     case "220":
-                        sw.WriteLine("HELO jyu.fi");
+                        lahetys = "HELO jyu.fi";
+                        sw.WriteLine(lahetys);
+                        Console.WriteLine("lähetetään " + lahetys);
                         break;
                     case "250":
                         switch (status[1])
                         {
                             case "2.0.0":
-                            on = false;
-                            sw.WriteLine("QUIT:");
-                            break;
+                            lahetys = "QUIT";
+                            sw.WriteLine(lahetys);
+                            Console.WriteLine("lähetetään " + lahetys);
+                            return;
                             case "2.1.0":
-                            sw.WriteLine("RCPT TO: " + vastaanottaja);
+                            lahetys = "RCPT TO: " + vastaanottaja;
+                            sw.WriteLine(lahetys);
+                            Console.WriteLine("lähetetään " + lahetys);
                             break;
                             case "2.1.5":
-                            sw.WriteLine("DATA");
+                            lahetys = "DATA";
+                            sw.WriteLine(lahetys);
+                            Console.WriteLine("lähetetään " + lahetys);
                             break;
                             default: //ITKP104 Postipalvelin HELO localhost[127.0.0.1], good to see you! 
-                            sw.WriteLine("MAIL FROM: " + lahettaja);
+                            lahetys = "MAIL FROM: " + lahettaja;
+                            sw.WriteLine(lahetys);
+                            Console.WriteLine("lähetetään " + lahetys);
                             break; 
                         }
                         break;
@@ -64,12 +74,16 @@ namespace SMTPasiakas
                         on = false;
                         break;
                     case "354":
-                        sw.WriteLine(email + "\r\n.\r\n");
+                        lahetys = email + "\r\n.\r\n";
+                        sw.WriteLine(lahetys);
+                        Console.WriteLine("lähetetään " + lahetys);
                         break;
 
                     default: 
                         Console.WriteLine("Virhe...");
-                        sw.WriteLine("QUIT");
+                        lahetys= "QUIT";
+                        sw.WriteLine(lahetys);
+                        Console.WriteLine("lähetetään " + lahetys);
                         break;
                 } // switch
                 sw.Flush();
