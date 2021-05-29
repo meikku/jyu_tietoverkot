@@ -43,30 +43,25 @@ namespace SMTPasiakas
                     case "220":
                         lahetys = "HELO jyu.fi";
                         sw.WriteLine(lahetys);
-                        Console.WriteLine("lähetetään " + lahetys);
                         break;
                     case "250":
                         switch (status[1])
                         {
                             case "2.0.0":
-                            lahetys = "QUIT";
+                            lahetys = "QUIT"; // täältä ei tule lopetuskuittausta
                             sw.WriteLine(lahetys);
-                            Console.WriteLine("lähetetään " + lahetys);
                             return;
                             case "2.1.0":
                             lahetys = "RCPT TO: " + vastaanottaja;
                             sw.WriteLine(lahetys);
-                            Console.WriteLine("lähetetään " + lahetys);
                             break;
                             case "2.1.5":
                             lahetys = "DATA";
                             sw.WriteLine(lahetys);
-                            Console.WriteLine("lähetetään " + lahetys);
                             break;
                             default: //ITKP104 Postipalvelin HELO localhost[127.0.0.1], good to see you! 
                             lahetys = "MAIL FROM: " + lahettaja;
                             sw.WriteLine(lahetys);
-                            Console.WriteLine("lähetetään " + lahetys);
                             break; 
                         }
                         break;
@@ -76,14 +71,12 @@ namespace SMTPasiakas
                     case "354":
                         lahetys = email + "\r\n.\r\n";
                         sw.WriteLine(lahetys);
-                        Console.WriteLine("lähetetään " + lahetys);
                         break;
 
                     default: 
                         Console.WriteLine("Virhe...");
-                        lahetys= "QUIT";
+                        lahetys= "QUIT"; // täältä tulee lopetuskuittaus "Postipalvelin sulkeepi yhteyden"
                         sw.WriteLine(lahetys);
-                        Console.WriteLine("lähetetään " + lahetys);
                         break;
                 } // switch
                 sw.Flush();
